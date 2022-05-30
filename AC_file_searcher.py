@@ -62,7 +62,6 @@ def search_in_file(index, termlist):
         number_of_bytes = math.floor(dat_file_s/4)
 
         data = dat_file.read()
-        #print(data)
         
 
         for term in termlist:
@@ -72,10 +71,6 @@ def search_in_file(index, termlist):
             first_find_index = data.find(encoded_term)
             last_find_index = data.rfind(encoded_term)
             found_ocurrences = data.count(encoded_term)
-            
-            if data.find(bytes(term, 'UTF-8')) != -1:
-                print("!")
-                #found_ocurrences += 1
 
     print("Searches for a list of terms in a single file")
 
