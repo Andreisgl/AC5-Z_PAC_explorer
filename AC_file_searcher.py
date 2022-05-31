@@ -11,6 +11,7 @@ from imp import SEARCH_ERROR
 import os
 from os import listdir
 from os.path import isfile, join
+import re
 
 import textwrap
 
@@ -50,9 +51,9 @@ def get_files_in_search():
 
     #for i in range(len(in_file_list)):
         
-    print(in_file_list)
+    print("Number of files: " + str(len(in_file_list)))
 
-# Search for a term in the file contained in the chosen index.
+# Search for a term list in the file located in the chosen index.
 def search_in_file(index, termlist):
     with open(SEARCH_FOLDER + "/" + in_file_list[index], 'rb') as dat_file:
         dat_file_s = os.path.getsize(SEARCH_FOLDER + "/" + in_file_list[index])
@@ -68,11 +69,25 @@ def search_in_file(index, termlist):
             
             encoded_term = bytes(term, 'UTF-8')
 
-            first_find_index = data.find(encoded_term)
-            last_find_index = data.rfind(encoded_term)
-            found_ocurrences = data.count(encoded_term)
+            # first_find_offset = data.find(encoded_term)
+            # last_find_offset = data.rfind(encoded_term)
+            # number_of_ocurrences = data.count(encoded_term)
+            # Registers the offsets of each ocurrence between the known offsets
+            ocurrence_count = 0
+            #while data.find(encoded_term) != -1 and ocurrence_count < number_of_ocurrences:
+            #    ocurrence_count += 1
+            #    print(data.find(encoded_term))
+            #    print(data.find(encoded_term))
 
-    print("Searches for a list of terms in a single file")
+            for match in re.finditer(encoded_term, data):
+                ocurrence_count += 1
+                s = match.start()
+                e = match.end()
+
+                print("Match: " + str(term) + " at " + str(s))
+                
+                
+    
 
 
 show_welcome_msg_instructions()
