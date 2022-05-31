@@ -79,12 +79,21 @@ def search_in_file(index, termlist):
             #    print(data.find(encoded_term))
             #    print(data.find(encoded_term))
 
+            match_list = []
             for match in re.finditer(encoded_term, data):
                 ocurrence_count += 1
                 s = match.start()
                 e = match.end()
 
+                match_list.append(s)
+
                 print("Match: " + str(term) + " at " + str(s))
+
+            print("Ocurr. of |" + term + "| in |" + in_file_list[index] +"|")
+            print("Number of ocurrences: " + str(ocurrence_count))
+            print("Matches found in offsets: ")
+            for occurr in match_list:
+                print(hex(occurr))
                 
                 
     
