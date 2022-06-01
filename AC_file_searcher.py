@@ -54,7 +54,7 @@ def get_files_in_search():
     print("Number of files: " + str(len(in_file_list)))
 
 # Search for a term list in the file located in the chosen index.
-def search_in_file(index, termlist):
+def search_in_file(index, search_term):
     with open(SEARCH_FOLDER + "/" + in_file_list[index], 'rb') as dat_file:
         dat_file_s = os.path.getsize(SEARCH_FOLDER + "/" + in_file_list[index])
 
@@ -64,37 +64,35 @@ def search_in_file(index, termlist):
 
         data = dat_file.read()
         
-
-        for term in termlist:
             
-            encoded_term = bytes(term, 'UTF-8')
-            occurrence_count = 0
+        encoded_term = bytes(search_term, 'UTF-8')
+        occurrence_count = 0
 
-            match_list = []
-            for match in re.finditer(encoded_term, data):
-                occurrence_count += 1
-                s = match.start()
-                e = match.end()
+        match_list = []
+        for match in re.finditer(encoded_term, data):
+            occurrence_count += 1
+            s = match.start()
+            e = match.end()
 
-                match_list.append(s)
+            match_list.append(s)
 
-            # Print search results in a string
-            # Should this be a separate function?
+        # Print search results in a string
+        # Should this be a separate function?
+        
+        # If there are any occurrences of this term, print it.
+        search_result_str = ""
+        if occurrence_count > 0:
+            search_result_str = in_file_list[index] + ">" + search_term
+            search_result_str += ":" + str(occurrence_count) + " @"
             
-            # If there are any occurrences of this term, print it.
-            search_result_str = ""
-            if occurrence_count > 0:
-                search_result_str = in_file_list[index] + ">" + term
-                search_result_str += ":" + str(occurrence_count) + " @"
-                
-                counter = 0
-                for occurr in match_list:
-                    search_result_str += str(hex(occurr))
-                    counter += 1
-                    if counter < occurrence_count:
-                        search_result_str += ","
+            counter = 0
+            for occurr in match_list:
+                search_result_str += str(hex(occurr))
+                counter += 1
+                if counter < occurrence_count:
+                    search_result_str += ","
 
-            print(search_result_str)
+        return search_result_str
                 
                 
     
@@ -104,6 +102,6 @@ show_welcome_msg_instructions()
 check_folders()
 get_files_in_search()
 
-search_in_file(0, term_list)
+search_in_file(0, "version")
 
 print("END!!")
