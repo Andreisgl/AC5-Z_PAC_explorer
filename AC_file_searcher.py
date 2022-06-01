@@ -23,7 +23,7 @@ search_result_file = "result.txt"
 in_file_list = []
 #file_content_list = []
 
-search_list = ["version", "output", "core", "jooj"] #[b'0\x00\x00\x00'] #"F-14D",
+search_list = ["PIXY"] #[b'0\x00\x00\x00'] #"F-14D",
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
