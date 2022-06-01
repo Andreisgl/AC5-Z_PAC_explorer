@@ -93,6 +93,8 @@ def search_in_file(index, search_term):
             if counter < occurrence_count:
                 search_result_str += ","
 
+        if occurrence_count == 0:
+            return -1
         return search_result_str
                 
 def search_term_list_in_file(index, term_list):
@@ -100,11 +102,18 @@ def search_term_list_in_file(index, term_list):
     search_result_str = "\n" + "&&&" + "\n"
     search_result_str += in_file_list[index] + "\n"
     counter = 0
+    empty_counter = 0
     for term in term_list:
         counter += 1
-        search_result_str += search_in_file(index, term)
-        if counter < len(term_list):
-            search_result_str += "\n"
+        aux = search_in_file(index, term)
+        if aux != -1:
+            search_result_str += aux
+            if counter < len(term_list):
+                search_result_str += "\n"
+        else:
+            empty_counter += 1
+            if empty_counter == len(term_list):
+                return -1
     
     # End string for each file
     search_result_str += "\n|||"
@@ -114,14 +123,17 @@ def search_term_list_in_all_files(term_list):
     
     with open(search_result_file, 'w') as result_file:
         for file in range(len(in_file_list)):
-            result_file.write(search_term_list_in_file(file, term_list))
+            aux = search_term_list_in_file(file, term_list)
+            if aux != -1:
+                result_file.write(aux)
+            
         
 
 show_welcome_msg_instructions()
 check_folders()
 get_files_in_search()
 
-# search_in_file(0, "version")
+# search_in_file(0, "jooj")
 # search_term_list_in_file(0, search_list)
 search_term_list_in_all_files(search_list)
 
