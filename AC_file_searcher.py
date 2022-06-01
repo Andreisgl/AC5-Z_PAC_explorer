@@ -18,6 +18,8 @@ import textwrap
 BASE_FOLDER = "./"
 SEARCH_FOLDER = BASE_FOLDER + "search_folder"
 
+search_result_file = "result.txt"
+
 in_file_list = []
 #file_content_list = []
 
@@ -79,31 +81,48 @@ def search_in_file(index, search_term):
         
         # If there are any occurrences of this term, record it.
         search_result_str = ""
-        if occurrence_count > 0:
-            # search_result_str = in_file_list[index] + ">"
-            search_result_str += search_term
-            search_result_str += ":" + str(occurrence_count) + "@"
-            
-            counter = 0
-            for occurr in match_list:
-                search_result_str += str(hex(occurr))
-                counter += 1
-                if counter < occurrence_count:
-                    search_result_str += ","
+        
+        # search_result_str = in_file_list[index] + ">"
+        search_result_str += search_term
+        search_result_str += ":" + str(occurrence_count) + " @ "
+        
+        counter = 0
+        for occurr in match_list:
+            search_result_str += str(hex(occurr))
+            counter += 1
+            if counter < occurrence_count:
+                search_result_str += ","
 
         return search_result_str
                 
 def search_term_list_in_file(index, term_list):
+    # Start string for each file
+    search_result_str = "\n" + "&&&" + "\n"
+    search_result_str += in_file_list[index] + "\n"
+    counter = 0
     for term in term_list:
-        print( search_in_file(index, term) )
+        counter += 1
+        search_result_str += search_in_file(index, term)
+        if counter < len(term_list):
+            search_result_str += "\n"
     
-
+    # End string for each file
+    search_result_str += "\n|||"
+    return search_result_str
+    
+def search_term_list_in_all_files(term_list):
+    
+    with open(search_result_file, 'w') as result_file:
+        for file in range(len(in_file_list)):
+            result_file.write(search_term_list_in_file(file, term_list))
+        
 
 show_welcome_msg_instructions()
 check_folders()
 get_files_in_search()
 
 # search_in_file(0, "version")
-search_term_list_in_file(0, search_list)
+# search_term_list_in_file(0, search_list)
+search_term_list_in_all_files(search_list)
 
-print("END!!")
+# print("END!!")
