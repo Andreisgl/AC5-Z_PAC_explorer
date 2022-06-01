@@ -79,11 +79,12 @@ def search_in_file(index, search_term):
         # Print search results in a string
         # Should this be a separate function?
         
-        # If there are any occurrences of this term, print it.
+        # If there are any occurrences of this term, record it.
         search_result_str = ""
         if occurrence_count > 0:
-            search_result_str = in_file_list[index] + ">" + search_term
-            search_result_str += ":" + str(occurrence_count) + " @"
+            # search_result_str = in_file_list[index] + ">"
+            search_result_str += search_term
+            search_result_str += ":" + str(occurrence_count) + "@"
             
             counter = 0
             for occurr in match_list:
@@ -102,6 +103,6 @@ show_welcome_msg_instructions()
 check_folders()
 get_files_in_search()
 
-search_in_file(0, "version")
+print( search_in_file(0, "version") )
 
 print("END!!")
