@@ -21,7 +21,7 @@ SEARCH_FOLDER = BASE_FOLDER + "search_folder"
 in_file_list = []
 #file_content_list = []
 
-term_list = ["version"] #[b'0\x00\x00\x00'] #"F-14D",
+term_list = ["version", "output", "core", "jooj"] #[b'0\x00\x00\x00'] #"F-14D",
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -68,32 +68,33 @@ def search_in_file(index, termlist):
         for term in termlist:
             
             encoded_term = bytes(term, 'UTF-8')
-
-            # first_find_offset = data.find(encoded_term)
-            # last_find_offset = data.rfind(encoded_term)
-            # number_of_ocurrences = data.count(encoded_term)
-            # Registers the offsets of each ocurrence between the known offsets
-            ocurrence_count = 0
-            #while data.find(encoded_term) != -1 and ocurrence_count < number_of_ocurrences:
-            #    ocurrence_count += 1
-            #    print(data.find(encoded_term))
-            #    print(data.find(encoded_term))
+            occurrence_count = 0
 
             match_list = []
             for match in re.finditer(encoded_term, data):
-                ocurrence_count += 1
+                occurrence_count += 1
                 s = match.start()
                 e = match.end()
 
                 match_list.append(s)
 
-                print("Match: " + str(term) + " at " + str(s))
+            # Print search results in a string
+            # Should this be a separate function?
+            
+            # If there are any occurrences of this term, print it.
+            search_result_str = ""
+            if occurrence_count > 0:
+                search_result_str = in_file_list[index] + ">" + term
+                search_result_str += ":" + str(occurrence_count) + " @"
+                
+                counter = 0
+                for occurr in match_list:
+                    search_result_str += str(hex(occurr))
+                    counter += 1
+                    if counter < occurrence_count:
+                        search_result_str += ","
 
-            print("Ocurr. of |" + term + "| in |" + in_file_list[index] +"|")
-            print("Number of ocurrences: " + str(ocurrence_count))
-            print("Matches found in offsets: ")
-            for occurr in match_list:
-                print(hex(occurr))
+            print(search_result_str)
                 
                 
     
