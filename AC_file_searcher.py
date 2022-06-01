@@ -7,7 +7,7 @@
 # For use with DATA.PAC, use death_the_d0g's ACZ_PAC_TOOLS to unpack it.
 
 import math
-from imp import SEARCH_ERROR
+# from imp import SEARCH_ERROR
 import os
 from os import listdir
 from os.path import isfile, join
@@ -21,7 +21,7 @@ SEARCH_FOLDER = BASE_FOLDER + "search_folder"
 in_file_list = []
 #file_content_list = []
 
-term_list = ["version", "output", "core", "jooj"] #[b'0\x00\x00\x00'] #"F-14D",
+search_list = ["version", "output", "core", "jooj"] #[b'0\x00\x00\x00'] #"F-14D",
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -62,9 +62,7 @@ def search_in_file(index, search_term):
             input("Number of bytes not divisible by 4!")
         number_of_bytes = math.floor(dat_file_s/4)
 
-        data = dat_file.read()
-        
-            
+        data = dat_file.read()  
         encoded_term = bytes(search_term, 'UTF-8')
         occurrence_count = 0
 
@@ -95,7 +93,9 @@ def search_in_file(index, search_term):
 
         return search_result_str
                 
-                
+def search_term_list_in_file(index, term_list):
+    for term in term_list:
+        print( search_in_file(index, term) )
     
 
 
@@ -103,6 +103,7 @@ show_welcome_msg_instructions()
 check_folders()
 get_files_in_search()
 
-print( search_in_file(0, "version") )
+# search_in_file(0, "version")
+search_term_list_in_file(0, search_list)
 
 print("END!!")
