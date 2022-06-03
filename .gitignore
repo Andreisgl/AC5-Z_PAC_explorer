@@ -1,5 +1,6 @@
 search_folder
 result.txt
+storage
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

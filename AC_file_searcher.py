@@ -23,7 +23,7 @@ search_result_file = "result.txt"
 in_file_list = []
 #file_content_list = []
 
-search_list = ["PIXY"] #[b'0\x00\x00\x00'] #"F-14D",
+search_list = [".", ".NPSF", ".TIM"] #[b'0\x00\x00\x00'] #"F-14D", # ""
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -127,7 +127,13 @@ def search_term_list_in_all_files(term_list):
             if aux != -1:
                 result_file.write(aux)
             
-        
+# Gets term type to aid search
+def get_search_type():
+    # Term types:
+    # 0- string
+    # 1- hex
+    # 2- int
+    print('lol')
 
 show_welcome_msg_instructions()
 check_folders()
