@@ -6,6 +6,12 @@
 
 # For use with DATA.PAC, use death_the_d0g's ACZ_PAC_TOOLS to unpack it.
 
+# TODO: 
+# 1 - Finish the supported term formats
+# 2 - Make a proper term input system, you lazy coder!
+
+
+from json import encoder
 import math
 # from imp import SEARCH_ERROR
 import os
@@ -23,7 +29,7 @@ search_result_file = "result.txt"
 in_file_list = []
 #file_content_list = []
 
-search_list = [".", ".NPSF", ".TIM"] #[b'0\x00\x00\x00'] #"F-14D", # ""
+search_list = [".TIM"] #[b'0\x00\x00\x00'] #"F-14D", # ""
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -65,8 +71,10 @@ def search_in_file(index, search_term):
         number_of_bytes = math.floor(dat_file_s/4)
 
         data = dat_file.read()  
-        encoded_term = bytes(search_term, 'UTF-8')
+        encoded_term = term_encoder(search_term, get_search_type(search_term))
         occurrence_count = 0
+
+        
 
         match_list = []
         for match in re.finditer(encoded_term, data):
@@ -127,13 +135,32 @@ def search_term_list_in_all_files(term_list):
             if aux != -1:
                 result_file.write(aux)
             
-# Gets term type to aid search
-def get_search_type():
+# Returns term type to aid search. If not present, defaults to 'string'
+def get_search_type(term):
     # Term types:
-    # 0- string
-    # 1- hex
-    # 2- int
-    print('lol')
+    # index- |special char| name of type
+    # 0- |*string*| string
+    # 1- |*hex*| hex
+    # 2- |*int*| int
+    
+    
+    return 0
+    # Only hardcoded for now...
+
+# Encodes a term based on it's type
+def term_encoder(term, type):
+    # Only string for now...
+    if type == 0:
+        return bytes(term, 'UTF-8')
+    if type == 2:
+        test = hex( int(term) )
+        test = test.split('0x')[1]
+        aux = test
+        
+        return aux
+    else:
+        return bytes(term, 'UTF-8')
+
 
 show_welcome_msg_instructions()
 check_folders()
