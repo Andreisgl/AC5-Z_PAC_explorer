@@ -24,12 +24,14 @@ import textwrap
 BASE_FOLDER = "./"
 SEARCH_FOLDER = BASE_FOLDER + "search_folder"
 
+search_term_file = "search_terms.txt"
 search_result_file = "result.txt"
 
 in_file_list = []
+search_term_list = []
 #file_content_list = []
 
-search_list = [".TIM"] #[b'0\x00\x00\x00'] #"F-14D", # ""
+search_list = [] #[b'0\x00\x00\x00'] #"F-14D", # ""
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -48,9 +50,24 @@ def check_folders():
     # If search directory is empty, accuse an error.
     if len(listdir(SEARCH_FOLDER)) <= 0:
         errormsg = "Search directory is empty!"
+    
+    if not os.path.exists(search_term_file):
+        with open(search_term_file, 'w'):
+            errormsg = "No search term file present!"
+
     # If any error was accused, exit program.
     if not errormsg == "":
         exit(errormsg)
+
+def get_search_terms():
+    with open(search_term_file, 'r') as STF:
+        num_lines = 0
+        # num_lines = sum(1 for line in STF if line.rstrip())
+        for line in STF:
+            if line.rstrip():
+                search_term_list.append( line)
+                num_lines += 1
+        print('Total lines:', num_lines)
 
 # Gets and saves the files in the search folder.
 def get_files_in_search():
@@ -143,7 +160,7 @@ def get_search_type(term):
     # 1- |*hex*| hex
     # 2- |*int*| int
     
-    
+    print('l')
     return 0
     # Only hardcoded for now...
 
@@ -164,6 +181,7 @@ def term_encoder(term, type):
 
 show_welcome_msg_instructions()
 check_folders()
+get_search_terms()
 get_files_in_search()
 
 # search_in_file(0, "jooj")
