@@ -31,7 +31,6 @@ in_file_list = []
 search_term_list = []
 #file_content_list = []
 
-search_list = [] #[b'0\x00\x00\x00'] #"F-14D", # ""
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -65,7 +64,7 @@ def get_search_terms():
         # num_lines = sum(1 for line in STF if line.rstrip())
         for line in STF:
             if line.rstrip():
-                search_term_list.append( line)
+                search_term_list.append(line.rstrip("\n"))
                 num_lines += 1
         print('Total lines:', num_lines)
 
@@ -83,9 +82,7 @@ def search_in_file(index, search_term):
     with open(SEARCH_FOLDER + "/" + in_file_list[index], 'rb') as dat_file:
         dat_file_s = os.path.getsize(SEARCH_FOLDER + "/" + in_file_list[index])
 
-        if not dat_file_s % 4 == 0:
-            input("Number of bytes not divisible by 4!")
-        number_of_bytes = math.floor(dat_file_s/4)
+        # number_of_bytes = math.floor(dat_file_s/4)
 
         data = dat_file.read()  
         encoded_term = term_encoder(search_term, get_search_type(search_term))
@@ -160,7 +157,6 @@ def get_search_type(term):
     # 1- |*hex*| hex
     # 2- |*int*| int
     
-    print('l')
     return 0
     # Only hardcoded for now...
 
@@ -186,6 +182,6 @@ get_files_in_search()
 
 # search_in_file(0, "jooj")
 # search_term_list_in_file(0, search_list)
-search_term_list_in_all_files(search_list)
+search_term_list_in_all_files(search_term_list)
 
-# print("END!!")
+print("END!!")

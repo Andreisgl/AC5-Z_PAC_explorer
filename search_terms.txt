@@ -1,1 +1,12 @@
-F-14D
+A-6E
+PIXY
+Wizard
+pixy
+version
+.TIM
+.PAC
+.NPSF
+.TXT
+.GIM
+.JPEG
+.JPG
