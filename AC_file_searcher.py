@@ -128,17 +128,18 @@ def search_term_list_in_file(index, term_list):
     for term in term_list:
         counter += 1
         aux = search_in_file(index, term)
-        if aux != -1:
-            search_result_str += aux
-            if counter < len(term_list):
-                search_result_str += "\n"
-        else:
+        if aux == -1:
             empty_counter += 1
             if empty_counter == len(term_list):
                 return -1
+        else:
+            search_result_str += aux + "\n"
+            if counter < len(term_list):
+                search_result_str += "\n"
+
     
     # End string for each file
-    search_result_str += "\n|||"
+    # search_result_str += "\n|||"
     return search_result_str
     
 def search_term_list_in_all_files(term_list):
