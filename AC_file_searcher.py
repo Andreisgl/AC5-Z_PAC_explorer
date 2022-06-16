@@ -192,7 +192,7 @@ def term_encoder(term, type):
     if type == 1:
         term = int(term, 16)
         #term = hex(term)
-        term = int(term).to_bytes(4, 'little')
+        term = int(term).to_bytes(4, 'big')
 
         print(term)
         return term
