@@ -66,7 +66,7 @@ def get_search_terms():
             if line.rstrip():
                 search_term_list.append(line.rstrip("\n"))
                 num_lines += 1
-        print('Total lines:', num_lines)
+        print('Number of search terms:', num_lines)
 
 # Gets and saves the files in the search folder.
 def get_files_in_search():
@@ -84,13 +84,14 @@ def search_in_file(index, search_term):
 
         # number_of_bytes = math.floor(dat_file_s/4)
 
-        data = dat_file.read()  
-        encoded_term = term_encoder(search_term, get_search_type(search_term))
+        data = dat_file.read() 
+        term_type, search_term = get_search_type(search_term)
+        encoded_term = term_encoder(search_term, term_type)
         occurrence_count = 0
 
+        match_list = []
         
 
-        match_list = []
         for match in re.finditer(encoded_term, data):
             occurrence_count += 1
             s = match.start()
@@ -153,23 +154,45 @@ def search_term_list_in_all_files(term_list):
 # Returns term type to aid search. If not present, defaults to 'string'
 def get_search_type(term):
     # Term types:
-    # index- |special char| name of type
-    # 0- |*string*| string
-    # 1- |*hex*| hex
-    # 2- |*int*| int
+    # index- | special char | name of type
+    # 0- | string\ | string
+    # 1- | hex\ | hex
+    # 2- | int\ | int
+
+    encode_type = -1
+
+    prefix = term.split('\\', 1)[0]
+    suffix = term.split('\\', 1)[1]
+    if prefix == 'string':
+        print('Is string!')
+        encode_type = 0
+    elif prefix == 'hex':
+        print("Is hex!")
+        encode_type = 1
+    elif prefix == "int":
+        print("Is int!")
+        encode_type = 2
+
+
     
-    return 0
     # Only hardcoded for now...
+    return encode_type, suffix
+    
 
 # Encodes a term based on it's type
 def term_encoder(term, type):
     # Only string for now...
     if type == 0:
         return bytes(term, 'UTF-8')
+    if type == 1:
+        term = int(term, 16)
+        #term = hex(term)
+        term = int(term).to_bytes(4, 'little')
+
+        print(term)
+        return term
     if type == 2:
-        test = hex( int(term) )
-        test = test.split('0x')[1]
-        aux = test
+        aux = int(term).to_bytes(4, 'little')
         
         return aux
     else:
