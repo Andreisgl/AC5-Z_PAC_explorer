@@ -190,9 +190,10 @@ def term_encoder(term, type):
     if type == 0:
         return bytes(term, 'UTF-8')
     if type == 1:
+        hex_size = int(len(term)/2)
         term = int(term, 16)
         #term = hex(term)
-        term = int(term).to_bytes(4, 'big')
+        term = int(term).to_bytes(hex_size, 'big')
 
         print(term)
         return term
