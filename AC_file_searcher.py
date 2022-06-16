@@ -160,9 +160,14 @@ def get_search_type(term):
     # 2- | int\ | int
 
     encode_type = -1
+    default_type = "string"
 
-    prefix = term.split('\\', 1)[0]
-    suffix = term.split('\\', 1)[1]
+    try:
+        prefix = term.split('\\', 1)[0]
+        suffix = term.split('\\', 1)[1]
+    except IndexError:
+        prefix = "string"
+        suffix = term
     if prefix == 'string':
         print('Is string!')
         encode_type = 0
