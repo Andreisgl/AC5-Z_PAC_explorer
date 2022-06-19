@@ -85,11 +85,18 @@ def search_in_file(index, search_term):
         # number_of_bytes = math.floor(dat_file_s/4)
 
         data = dat_file.read() 
-        term_type = term_type_list[index]
-        search_term = search_term_list[index]
+        term_list_index = search_term_list.index(search_term)
+        term_type = term_type_list[term_list_index]
+        search_term = search_term_list[term_list_index]
         encoded_term = term_encoder(search_term, term_type)
         occurrence_count = 0
 
+
+        # data = dat_file.read() 
+        # term_type, search_term = get_search_type(search_term)
+        # encoded_term = term_encoder(search_term, term_type)
+        # occurrence_count = 0
+        # match_list = []
         
         
 
@@ -197,7 +204,6 @@ def term_encoder(term, type):
         #term = hex(term)
         term = int(term).to_bytes(hex_size, 'big')
 
-        print(term)
         return term
     if type == 2:
         aux = int(term).to_bytes(4, 'little')
@@ -206,12 +212,20 @@ def term_encoder(term, type):
     else:
         return bytes(term, 'UTF-8')
 
+def display_search_info():
+    print("Search parameters:")
+    print(search_term_list)
+    print("\n")
 
 show_welcome_msg_instructions()
 check_folders()
 get_search_terms()
 get_search_type_list()
 get_files_in_search()
+
+display_search_info()
+
+
 
 # search_in_file(0, "jooj")
 # search_term_list_in_file(0, search_list)
