@@ -21,10 +21,6 @@ FILES @ 'search_folder'
 0000.dat
 0001.dat
 0002.dat
-0003.dat
-0004.dat
-0005.dat
-
 SEARCH TERMS @ 'search_terms.txt':
 string\F-14D
 string\GRIPEN

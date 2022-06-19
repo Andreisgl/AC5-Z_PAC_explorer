@@ -27,10 +27,9 @@ SEARCH_FOLDER = BASE_FOLDER + "search_folder"
 search_term_file = "search_terms.txt"
 search_result_file = "result.txt"
 
-in_file_list = []
-search_term_list = []
-#file_content_list = []
-
+in_file_list = [] # Filenames to be searched
+search_term_list = [] # List of terms to be searched
+term_type_list = [] # List of type of search type for each term (string, hex, int...)
 
 def show_welcome_msg_instructions():
     print(textwrap.fill("Ace Combat 5/Zero .PAC searcher by Andrei Segal (Andrei_sgl@ Github)", width=80))
@@ -79,17 +78,19 @@ def get_files_in_search():
 
 # Search for a term list in the file located in the chosen index.
 def search_in_file(index, search_term):
+    match_list = []
     with open(SEARCH_FOLDER + "/" + in_file_list[index], 'rb') as dat_file:
         dat_file_s = os.path.getsize(SEARCH_FOLDER + "/" + in_file_list[index])
 
         # number_of_bytes = math.floor(dat_file_s/4)
 
         data = dat_file.read() 
-        term_type, search_term = get_search_type(search_term)
+        term_type = term_type_list[index]
+        search_term = search_term_list[index]
         encoded_term = term_encoder(search_term, term_type)
         occurrence_count = 0
 
-        match_list = []
+        
         
 
         for match in re.finditer(encoded_term, data):
@@ -178,11 +179,12 @@ def get_search_type(term):
         print("Is int!")
         encode_type = 2
 
-
-    
-    # Only hardcoded for now...
     return encode_type, suffix
-    
+
+def get_search_type_list():
+    for index in range(len(search_term_list)):
+        search_type, search_term_list[index] = get_search_type(search_term_list[index])
+        term_type_list.append(search_type)
 
 # Encodes a term based on it's type
 def term_encoder(term, type):
@@ -208,6 +210,7 @@ def term_encoder(term, type):
 show_welcome_msg_instructions()
 check_folders()
 get_search_terms()
+get_search_type_list()
 get_files_in_search()
 
 # search_in_file(0, "jooj")
