@@ -6,13 +6,13 @@
 
 
 
-term_character_list = [0x42, 0x55, 0x44, 0x44, 0x59]
+term_character_list = [0x57, 0x00, 0x41, 0x00, 0x52, 0x00, 0x44, 0x00, 0x45, 0x00, 0x44]
 offset_values_list = []
 #character_test_range = [0x41, 0x5A]
-character_test_range = [0x1, 0x7F]
+character_test_range = [0x0, 0x5A]
 all_searches_list = []
 
-output_file = './search_terms.txt'
+output_file = './CODEBREAKER_OUTPUT.txt'
 
 def find_smallest_number():
     return min(term_character_list)
@@ -39,15 +39,25 @@ for number in range(character_test_range[0], character_test_range[1]):
     all_searches_list.append(aux_list)
 
 
-search_type_hex = [0x73, 0x74, 0x72, 0x69, 0x6E, 0x67, 0x5C]
+search_type_str = 'hex\\'
 newline_list = [0x0A]
 
-with open(output_file, 'wb') as OTPF:
+with open(output_file, 'w') as OTPF:
     for index in range(len(all_searches_list)):
         see = all_searches_list[index]
-        #see2 = search_type_hex + see + newline_list
-        see2 = see + newline_list
-        OTPF.write( bytearray(see2) )
+        aux = ''
+        for item in range(len(see)):
+            hexer = hex( see[item] )
+            aux = aux + hexer
+            if see[item] < 16:
+                aux = aux.replace('0x', '0')
+            else:
+                aux = aux.replace('0x', '')
+            #aux = aux + hexer
+
+        
+        xx = search_type_str + aux + '\n' 
+        OTPF.write(xx)
 
 
 print(term_character_list)
