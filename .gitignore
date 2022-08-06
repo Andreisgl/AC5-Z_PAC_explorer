@@ -157,3 +157,4 @@ cython_debug/
 #.idea/
 search_terms.txt.bak
 CODEBREAKER_OUTPUT
+CODEBREAKER_OUTPUT.txt
