@@ -24,10 +24,15 @@ FILES @ 'search_folder'
 
 SEARCH TERMS @ 'search_terms.txt':
 string\F-14D
+
 string\GRIPEN
+
 int\5115
+
 int\317
+
 hex\54414E4B
+
 
 RESULTS AT 'result.txt'
 
